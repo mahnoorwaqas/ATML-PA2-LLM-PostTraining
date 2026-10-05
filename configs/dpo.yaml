@@ -1,0 +1,22 @@
+base_config: configs/base.yaml
+beta: 0.10
+betas: [0.03, 0.10, 0.30]
+learning_rate: 2.0e-5
+weight_decay: 0.0
+batch_size: 2
+grad_accum_steps: 8
+epochs: 1
+short_ablation_examples: 600
+max_sequence_length: 768
+max_generation_tokens: 256
+max_grad_norm: 1.0
+standard_output: outputs/task1_dpo/standard
+length_output: outputs/task1_dpo/length_balanced
+results_dir: results/task1_dpo
+
+# Added for evaluation protocol (fixed across all DPO conditions)
+eval_generation_prompts: 100
+eval_batch_size: 4
+word_limit_samples: 8
+length_eval_max_pairs_per_stratum: null
+beta_output_dir: outputs/task1_dpo

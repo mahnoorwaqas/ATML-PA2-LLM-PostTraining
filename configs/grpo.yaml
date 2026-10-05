@@ -1,0 +1,26 @@
+base_config: configs/base.yaml
+updates: 20
+fork_updates: 8
+prompts_per_update: 1
+policy_epochs: 1
+learning_rate: 5.0e-6
+clip_epsilon: 0.20
+kl_beta: 0.10
+num_generations: 4
+group_sizes: [2, 4, 8]
+max_prompt_length: 256
+max_completion_length: 512
+mask_truncated_completions: true
+max_grad_norm: 1.0
+output: outputs/task3_grpo/standard
+results_dir: results/task3_grpo
+group_cache: cached/grpo_k_cache.jsonl
+cache_generation_cap: 768
+
+# Added for evaluation protocol (fixed across all GRPO conditions)
+eval_prompts: 64
+eval_batch_size: 4
+eval_max_completion_length: 768
+informative_std_tol: 1.0e-6
+fork_output_dir: outputs/task3_grpo
+grad_stats_in_forks: true

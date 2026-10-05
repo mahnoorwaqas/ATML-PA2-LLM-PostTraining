@@ -1,0 +1,40 @@
+base_config: configs/base.yaml
+
+# Short continuation from the supplied midpoint.
+updates: 20
+fork_updates: 8
+prompts_per_update: 1
+ppo_epochs: 2
+
+policy_learning_rate: 3.0e-6
+value_lora_learning_rate: 1.0e-4
+value_head_learning_rate: 3.0e-4
+value_train_mode: lora_head
+
+clip_epsilon: 0.20
+clip_values: [0.05, 0.20, 0.50]
+kl_beta: 0.10
+kl_values: [0.0, 0.10, 0.20]
+
+gamma: 1.0
+gae_lambda: 0.95
+value_coef: 0.50
+missing_eos_penalty: 1.0
+
+max_prompt_length: 256
+# Instructor midpoint training used this operational budget. The supplied midpoint has a
+# documented long-tail termination limitation; use the larger cap for frozen evaluation.
+max_response_length: 512
+eval_max_response_length: 768
+reward_max_length: 1280
+max_grad_norm: 1.0
+
+output: outputs/task2_ppo/standard
+results_dir: results/task2_ppo
+cached_rollouts: cached/ppo_rollout.pt
+
+# Added for evaluation protocol (fixed across all PPO conditions)
+eval_prompts: 64
+eval_batch_size: 4
+inner_steps_cached: 4
+fork_output_dir: outputs/task2_ppo

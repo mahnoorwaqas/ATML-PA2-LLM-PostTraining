@@ -1,0 +1,14 @@
+base_config: configs/base.yaml
+results_dir: results
+safety_max_new_tokens: 256
+math_max_new_tokens: 512
+judge_max_new_tokens: 64
+judge_temperature: 0.0
+manual_audit_per_class: 30
+policies:
+  sft: null
+  dpo: outputs/task1_dpo/standard
+  ppo: outputs/task2_ppo/standard
+  grpo: outputs/task3_grpo/standard
+  rlvr: checkpoints/rlvr_policy
+  rlaif: checkpoints/rlaif_policy

@@ -1,0 +1,10 @@
+{"prompt_id":"wl01","messages":[{"role":"user","content":"Explain why regularization can improve generalization in at most 40 words."}]}
+{"prompt_id":"wl02","messages":[{"role":"user","content":"Define overfitting in no more than 25 words."}]}
+{"prompt_id":"wl03","messages":[{"role":"user","content":"Summarize the purpose of a validation set in at most 30 words."}]}
+{"prompt_id":"wl04","messages":[{"role":"user","content":"Explain gradient descent in under 35 words."}]}
+{"prompt_id":"wl05","messages":[{"role":"user","content":"Describe one advantage and one limitation of attention in at most 45 words."}]}
+{"prompt_id":"wl06","messages":[{"role":"user","content":"What is distribution shift? Answer in no more than 30 words."}]}
+{"prompt_id":"wl07","messages":[{"role":"user","content":"Explain the role of a learning rate in at most 35 words."}]}
+{"prompt_id":"wl08","messages":[{"role":"user","content":"Why can a model with high training accuracy still fail at deployment? Answer in at most 40 words."}]}
+{"prompt_id":"wl09","messages":[{"role":"user","content":"Define calibration for a probabilistic classifier in under 30 words."}]}
+{"prompt_id":"wl10","messages":[{"role":"user","content":"Explain what a frozen reference model does in RLHF in at most 45 words."}]}

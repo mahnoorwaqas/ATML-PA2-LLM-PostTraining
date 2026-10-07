@@ -1,0 +1,146 @@
+{
+  "tol": 1e-06,
+  "n_prompts": 24,
+  "total_generations": 192,
+  "reward_distinct_values": 144,
+  "by_k": {
+    "2": {
+      "overall": {
+        "n_groups": 96,
+        "informative_rate": 0.9375,
+        "uninformative_rate": 0.0625,
+        "mean_group_reward_std": 0.3845672607421875,
+        "mean_group_reward_std_informative_only": 0.410205078125,
+        "var_centered_reward": 0.3368348789711793,
+        "var_normalised_advantage": 0.9374814173564774,
+        "mean_abs_advantage": 0.9374907082210674,
+        "informative_rate_ci95": [
+          0.84375,
+          1.0
+        ]
+      },
+      "hard": {
+        "n_groups": 32,
+        "informative_rate": 0.84375,
+        "uninformative_rate": 0.15625,
+        "mean_group_reward_std": 0.49340057373046875,
+        "mean_group_reward_std_informative_only": 0.5847710503472222,
+        "var_centered_reward": 0.5984376166015863,
+        "var_normalised_advantage": 0.8437429903132556,
+        "mean_abs_advantage": 0.8437464951406938
+      },
+      "medium": {
+        "n_groups": 32,
+        "informative_rate": 0.96875,
+        "uninformative_rate": 0.03125,
+        "mean_group_reward_std": 0.41237640380859375,
+        "mean_group_reward_std_informative_only": 0.4256788684475806,
+        "var_centered_reward": 0.3040905836969614,
+        "var_normalised_advantage": 0.9687324662020503,
+        "mean_abs_advantage": 0.9687412328214859
+      },
+      "easy": {
+        "n_groups": 32,
+        "informative_rate": 1.0,
+        "uninformative_rate": 0.0,
+        "mean_group_reward_std": 0.2479248046875,
+        "mean_group_reward_std_informative_only": 0.2479248046875,
+        "var_centered_reward": 0.10797643661499023,
+        "var_normalised_advantage": 0.9999687955541261,
+        "mean_abs_advantage": 0.9999843967010221
+      }
+    },
+    "4": {
+      "overall": {
+        "n_groups": 48,
+        "informative_rate": 0.9583333333333334,
+        "uninformative_rate": 0.04166666666666663,
+        "mean_group_reward_std": 0.5410043647319412,
+        "mean_group_reward_std_informative_only": 0.5645262936333301,
+        "var_centered_reward": 0.4677260586371024,
+        "var_normalised_advantage": 0.9583276282884473,
+        "mean_abs_advantage": 0.8307160501355989,
+        "informative_rate_ci95": [
+          0.875,
+          1.0
+        ]
+      },
+      "hard": {
+        "n_groups": 16,
+        "informative_rate": 0.875,
+        "uninformative_rate": 0.125,
+        "mean_group_reward_std": 0.6614877562072954,
+        "mean_group_reward_std_informative_only": 0.7559860070940518,
+        "var_centered_reward": 0.786526813171804,
+        "var_normalised_advantage": 0.8749959487185579,
+        "mean_abs_advantage": 0.7488248252906784
+      },
+      "medium": {
+        "n_groups": 16,
+        "informative_rate": 1.0,
+        "uninformative_rate": 0.0,
+        "mean_group_reward_std": 0.5516941225351226,
+        "mean_group_reward_std_informative_only": 0.5516941225351226,
+        "var_centered_reward": 0.4017186826094985,
+        "var_normalised_advantage": 0.9999938126434347,
+        "mean_abs_advantage": 0.8733725373470806
+      },
+      "easy": {
+        "n_groups": 16,
+        "informative_rate": 1.0,
+        "uninformative_rate": 0.0,
+        "mean_group_reward_std": 0.4098312154534056,
+        "mean_group_reward_std_informative_only": 0.4098312154534056,
+        "var_centered_reward": 0.21493268013000488,
+        "var_normalised_advantage": 0.9999931235033492,
+        "mean_abs_advantage": 0.8699507877690377
+      }
+    },
+    "8": {
+      "overall": {
+        "n_groups": 24,
+        "informative_rate": 0.9583333333333334,
+        "uninformative_rate": 0.04166666666666663,
+        "mean_group_reward_std": 0.6190544134665206,
+        "mean_group_reward_std_informative_only": 0.6459698227476736,
+        "var_centered_reward": 0.5598951438441873,
+        "var_normalised_advantage": 0.9583290996055105,
+        "mean_abs_advantage": 0.7939282011579724,
+        "informative_rate_ci95": [
+          0.875,
+          1.0
+        ]
+      },
+      "hard": {
+        "n_groups": 8,
+        "informative_rate": 0.875,
+        "uninformative_rate": 0.125,
+        "mean_group_reward_std": 0.7633688437029319,
+        "mean_group_reward_std_informative_only": 0.8724215356604937,
+        "var_centered_reward": 0.8869009069167078,
+        "var_normalised_advantage": 0.8749973884556075,
+        "mean_abs_advantage": 0.7564107253736314
+      },
+      "medium": {
+        "n_groups": 8,
+        "informative_rate": 1.0,
+        "uninformative_rate": 0.0,
+        "mean_group_reward_std": 0.5990220788024174,
+        "mean_group_reward_std_informative_only": 0.5990220788024174,
+        "var_centered_reward": 0.44691224163398147,
+        "var_normalised_advantage": 0.9999956471654694,
+        "mean_abs_advantage": 0.7926193007801597
+      },
+      "easy": {
+        "n_groups": 8,
+        "informative_rate": 1.0,
+        "uninformative_rate": 0.0,
+        "mean_group_reward_std": 0.49477231789421244,
+        "mean_group_reward_std_informative_only": 0.49477231789421244,
+        "var_centered_reward": 0.34587228298187256,
+        "var_normalised_advantage": 0.9999942631954548,
+        "mean_abs_advantage": 0.8327545773201261
+      }
+    }
+  }
+}

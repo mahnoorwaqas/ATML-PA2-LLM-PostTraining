@@ -1,0 +1,14 @@
+{
+  "run_name": "grpo_canonical",
+  "loss_type": "grpo",
+  "updates": 8,
+  "K": 4,
+  "clip_epsilon": 0.2,
+  "kl_beta": 0.1,
+  "seed": 6304,
+  "adapter_path": "/home/ATML-PA2-LLM-PostTraining/outputs/task3_grpo/grpo_canonical",
+  "wall_clock_seconds": 37.10179219581187,
+  "peak_vram_allocated_gb": 9.007659435272217,
+  "peak_vram_reserved_gb": 10.923828125,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+}

@@ -1,0 +1,76 @@
+{
+  "grpo_canonical": {
+    "trajectory": {
+      "reward_first3": 1.5480143229166667,
+      "reward_last3": 0.4800771077473958,
+      "kl_final": 9.309555935033131e-06,
+      "kl_max": 3.146864037262276e-05,
+      "length_first3": 306.8333333333333,
+      "length_last3": 259.8333333333333,
+      "length_slope_per_update": -7.872023809523796,
+      "grad_norm_mean": 0.4563084114342928,
+      "uninformative_fraction": 0.0,
+      "group_reward_std_mean": 0.721609802916646
+    },
+    "length_conditioned": {
+      "n_completions": 32,
+      "median_length": 326.0,
+      "mean_length_short": 112.0625,
+      "mean_length_long": 448.375,
+      "corr_length_vs_token_weight": -0.772338341594943,
+      "mean_token_weight_short": 0.01607457965812486,
+      "mean_token_weight_long": 0.002218681012968269,
+      "token_mass_ratio_long_over_short": 1.3481018462346224,
+      "corr_length_vs_grad_norm": -0.7562894387796686,
+      "mean_grad_norm_short": 0.32455536772144816,
+      "mean_grad_norm_long": 0.04498358529497688,
+      "grad_share_short": 0.8782710593083878,
+      "grad_share_long": 0.12172894069161223
+    },
+    "heldout": {
+      "rm_score_mean": 1.6403969526290894,
+      "kl_token_weighted": 0.00011017158923392606,
+      "entropy_mean": 0.9951768408645876,
+      "length_mean": 295.703125,
+      "length_std": 267.90691478615173,
+      "truncation_rate": 0.109375
+    }
+  },
+  "dr_grpo": {
+    "trajectory": {
+      "reward_first3": 1.67724609375,
+      "reward_last3": 0.81988525390625,
+      "kl_final": 9.231556759914383e-06,
+      "kl_max": 2.3892154786153696e-05,
+      "length_first3": 372.6666666666667,
+      "length_last3": 251.41666666666666,
+      "length_slope_per_update": -16.49999999999998,
+      "grad_norm_mean": 0.06867724424228072,
+      "uninformative_fraction": 0.0,
+      "group_reward_std_mean": 0.6693633310496807
+    },
+    "length_conditioned": {
+      "n_completions": 32,
+      "median_length": 345.0,
+      "mean_length_short": 151.6875,
+      "mean_length_long": 459.0625,
+      "corr_length_vs_token_weight": -0.16469939235694955,
+      "mean_token_weight_short": 0.00184312645137652,
+      "mean_token_weight_long": 0.0015367187770607416,
+      "token_mass_ratio_long_over_short": 2.5082869719304317,
+      "corr_length_vs_grad_norm": -0.34956465953093485,
+      "mean_grad_norm_short": 0.03864262307230203,
+      "mean_grad_norm_long": 0.02345534666147187,
+      "grad_share_short": 0.6871738028804546,
+      "grad_share_long": 0.3128261971195454
+    },
+    "heldout": {
+      "rm_score_mean": 1.7331056594848633,
+      "kl_token_weighted": 7.918677127062686e-05,
+      "entropy_mean": 0.9821391589939594,
+      "length_mean": 308.6875,
+      "length_std": 267.14245234284647,
+      "truncation_rate": 0.09375
+    }
+  }
+}

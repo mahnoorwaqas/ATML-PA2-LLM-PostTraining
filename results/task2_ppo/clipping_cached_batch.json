@@ -1,0 +1,287 @@
+{
+  "n_rollouts": 32,
+  "n_tokens": 8814,
+  "static": {
+    "0.05": {
+      "drift_ratio_outside_fraction": 0.13660086691379547
+    },
+    "0.2": {
+      "drift_ratio_outside_fraction": 0.0026094848290085793
+    },
+    "0.5": {
+      "drift_ratio_outside_fraction": 0.0
+    }
+  },
+  "dynamic": {
+    "lr_x1_eps0.05": {
+      "lr": 3e-06,
+      "eps": 0.05,
+      "trajectory": [
+        {
+          "surrogate": -0.014963755475903638,
+          "clip_fraction": 0.16564556513114972,
+          "affected_fraction": 0.08032675478500953,
+          "grad_norm": 0.04431118816137314,
+          "inner_step": 0
+        },
+        {
+          "surrogate": -0.015068125638656948,
+          "clip_fraction": 0.16836850705032078,
+          "affected_fraction": 0.08157476836883143,
+          "grad_norm": 0.044624339789152145,
+          "inner_step": 1
+        },
+        {
+          "surrogate": -0.01497967187324439,
+          "clip_fraction": 0.16757431505766185,
+          "affected_fraction": 0.08044021005197668,
+          "grad_norm": 0.0444653145968914,
+          "inner_step": 2
+        },
+        {
+          "surrogate": -0.014995635741855324,
+          "clip_fraction": 0.16689358275994068,
+          "affected_fraction": 0.08112094448976762,
+          "grad_norm": 0.0441461019217968,
+          "inner_step": 3
+        },
+        {
+          "surrogate": -0.014981723783520823,
+          "clip_fraction": 0.16734740455995273,
+          "affected_fraction": 0.08168822492484207,
+          "inner_step": 4,
+          "grad_norm": null
+        }
+      ],
+      "final_clip_fraction": 0.16734740455995273,
+      "final_affected_fraction": 0.08168822492484207,
+      "final_surrogate": -0.014981723783520823,
+      "mean_clip_fraction_over_steps": 0.16716587491180515
+    },
+    "lr_x1_eps0.2": {
+      "lr": 3e-06,
+      "eps": 0.2,
+      "trajectory": [
+        {
+          "surrogate": -0.010871172068901584,
+          "clip_fraction": 0.05604719986711674,
+          "affected_fraction": 0.0268890409170681,
+          "grad_norm": 0.04865026846528053,
+          "inner_step": 0
+        },
+        {
+          "surrogate": -0.010910738159332271,
+          "clip_fraction": 0.05570683229120436,
+          "affected_fraction": 0.026548673856068055,
+          "grad_norm": 0.048684217035770416,
+          "inner_step": 1
+        },
+        {
+          "surrogate": -0.010966112314344502,
+          "clip_fraction": 0.05582028761264949,
+          "affected_fraction": 0.02688904157603376,
+          "grad_norm": 0.04868165776133537,
+          "inner_step": 2
+        },
+        {
+          "surrogate": -0.010922155234441032,
+          "clip_fraction": 0.055820288009598186,
+          "affected_fraction": 0.026889041379573358,
+          "grad_norm": 0.04868697375059128,
+          "inner_step": 3
+        },
+        {
+          "surrogate": -0.010892050594078344,
+          "clip_fraction": 0.05570683189425566,
+          "affected_fraction": 0.02688904157603376,
+          "inner_step": 4,
+          "grad_norm": null
+        }
+      ],
+      "final_clip_fraction": 0.05570683189425566,
+      "final_affected_fraction": 0.02688904157603376,
+      "final_surrogate": -0.010892050594078344,
+      "mean_clip_fraction_over_steps": 0.055820287934964886
+    },
+    "lr_x1_eps0.5": {
+      "lr": 3e-06,
+      "eps": 0.5,
+      "trajectory": [
+        {
+          "surrogate": -0.007122183892063587,
+          "clip_fraction": 0.029838893517736553,
+          "affected_fraction": 0.014181983719417951,
+          "grad_norm": 0.05026492103934288,
+          "inner_step": 0
+        },
+        {
+          "surrogate": -0.007251391617570572,
+          "clip_fraction": 0.03006580511248258,
+          "affected_fraction": 0.014408895314163978,
+          "grad_norm": 0.05029406026005745,
+          "inner_step": 1
+        },
+        {
+          "surrogate": -0.007175407115965059,
+          "clip_fraction": 0.029952349183723304,
+          "affected_fraction": 0.014295439385404701,
+          "grad_norm": 0.05029162019491196,
+          "inner_step": 2
+        },
+        {
+          "surrogate": -0.00713083464007617,
+          "clip_fraction": 0.030179261041241856,
+          "affected_fraction": 0.014522351242923254,
+          "grad_norm": 0.0503019355237484,
+          "inner_step": 3
+        },
+        {
+          "surrogate": -0.007162658288827471,
+          "clip_fraction": 0.03006580511248258,
+          "affected_fraction": 0.014408895314163978,
+          "inner_step": 4,
+          "grad_norm": null
+        }
+      ],
+      "final_clip_fraction": 0.03006580511248258,
+      "final_affected_fraction": 0.014408895314163978,
+      "final_surrogate": -0.007162658288827471,
+      "mean_clip_fraction_over_steps": 0.030020422793533376
+    },
+    "lr_x10_eps0.05": {
+      "lr": 3e-05,
+      "eps": 0.05,
+      "trajectory": [
+        {
+          "surrogate": -0.014963755475903638,
+          "clip_fraction": 0.16564556513114972,
+          "affected_fraction": 0.08032675478500953,
+          "grad_norm": 0.044310495257377625,
+          "inner_step": 0
+        },
+        {
+          "surrogate": -0.014780631877255045,
+          "clip_fraction": 0.16746086009914013,
+          "affected_fraction": 0.08180168062419732,
+          "grad_norm": 0.04420481622219086,
+          "inner_step": 1
+        },
+        {
+          "surrogate": -0.014367699933305424,
+          "clip_fraction": 0.16734740311539473,
+          "affected_fraction": 0.08293623837556999,
+          "grad_norm": 0.0438663475215435,
+          "inner_step": 2
+        },
+        {
+          "surrogate": -0.013991228684720042,
+          "clip_fraction": 0.16621284602059694,
+          "affected_fraction": 0.0842977096527924,
+          "grad_norm": 0.04324951767921448,
+          "inner_step": 3
+        },
+        {
+          "surrogate": -0.013593584519320207,
+          "clip_fraction": 0.1674608621040241,
+          "affected_fraction": 0.08645336953712887,
+          "inner_step": 4,
+          "grad_norm": null
+        }
+      ],
+      "final_clip_fraction": 0.1674608621040241,
+      "final_affected_fraction": 0.08645336953712887,
+      "final_surrogate": -0.013593584519320207,
+      "mean_clip_fraction_over_steps": 0.16682550729406115
+    },
+    "lr_x10_eps0.2": {
+      "lr": 3e-05,
+      "eps": 0.2,
+      "trajectory": [
+        {
+          "surrogate": -0.010871172068901584,
+          "clip_fraction": 0.05604719986711674,
+          "affected_fraction": 0.0268890409170681,
+          "grad_norm": 0.04864996299147606,
+          "inner_step": 0
+        },
+        {
+          "surrogate": -0.010701674760235147,
+          "clip_fraction": 0.056047199075526834,
+          "affected_fraction": 0.027115952445502006,
+          "grad_norm": 0.04872201755642891,
+          "inner_step": 1
+        },
+        {
+          "surrogate": -0.010245324427807186,
+          "clip_fraction": 0.05559337588603478,
+          "affected_fraction": 0.02688904157603376,
+          "grad_norm": 0.049096278846263885,
+          "inner_step": 2
+        },
+        {
+          "surrogate": -0.009844806798780434,
+          "clip_fraction": 0.05547992001738913,
+          "affected_fraction": 0.026889040711295067,
+          "grad_norm": 0.049533337354660034,
+          "inner_step": 3
+        },
+        {
+          "surrogate": -0.009298742615768121,
+          "clip_fraction": 0.055479920292346295,
+          "affected_fraction": 0.02688904090775547,
+          "inner_step": 4,
+          "grad_norm": null
+        }
+      ],
+      "final_clip_fraction": 0.055479920292346295,
+      "final_affected_fraction": 0.02688904090775547,
+      "final_surrogate": -0.009298742615768121,
+      "mean_clip_fraction_over_steps": 0.05572952302768276
+    },
+    "lr_x10_eps0.5": {
+      "lr": 3e-05,
+      "eps": 0.5,
+      "trajectory": [
+        {
+          "surrogate": -0.007122183892063587,
+          "clip_fraction": 0.029838893517736553,
+          "affected_fraction": 0.014181983719417951,
+          "grad_norm": 0.050264108926057816,
+          "inner_step": 0
+        },
+        {
+          "surrogate": -0.006944350217978613,
+          "clip_fraction": 0.029838893517736553,
+          "affected_fraction": 0.014181983719417951,
+          "grad_norm": 0.050310660153627396,
+          "inner_step": 1
+        },
+        {
+          "surrogate": -0.006549148594059605,
+          "clip_fraction": 0.030065805319910113,
+          "affected_fraction": 0.014408895521591511,
+          "grad_norm": 0.04967137426137924,
+          "inner_step": 2
+        },
+        {
+          "surrogate": -0.006031454465205387,
+          "clip_fraction": 0.030179261316533437,
+          "affected_fraction": 0.014408895258818985,
+          "grad_norm": 0.050137847661972046,
+          "inner_step": 3
+        },
+        {
+          "surrogate": -0.005573217207444449,
+          "clip_fraction": 0.030292717245292713,
+          "affected_fraction": 0.014635807150269561,
+          "inner_step": 4,
+          "grad_norm": null
+        }
+      ],
+      "final_clip_fraction": 0.030292717245292713,
+      "final_affected_fraction": 0.014635807150269561,
+      "final_surrogate": -0.005573217207444449,
+      "mean_clip_fraction_over_steps": 0.030043114183441876
+    }
+  }
+}

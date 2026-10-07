@@ -68,6 +68,16 @@ def prompt_lookup(cfg: dict):
         for k in ("prompt_id", "source_index", "id"):
             if k in r:
                 table[k].setdefault(str(r[k]), r)
+
+    # The instructor's rollout cache was built from the EVAL prompt pool, so also index it by
+    # prompt_id (the only identifier that is globally unambiguous across pools).
+    eval_path = cfg["paths"].get("rl_prompt_eval", "data/rl_prompt_pool_eval.jsonl")
+    try:
+        for r in read_jsonl(eval_path):
+            if "prompt_id" in r:
+                table["prompt_id"].setdefault(str(r["prompt_id"]), r)
+    except FileNotFoundError:
+        print(f"[warn] eval prompt pool not found at {eval_path}; only the train pool is indexed")
     return table
 
 
@@ -76,12 +86,19 @@ def find_prompt_messages(table: dict, row: dict):
     if msgs is not None:
         return msgs
 
-    # 1) exact identifier match
-    for k in ("prompt_id", "source_index"):
-        if row.get(k) is not None and str(row[k]) in table[k]:
-            return prompt_messages(table[k][str(row[k])])
+    # 1) prompt_id is authoritative: if the row has one, it must resolve in a known pool
+    pid = row.get("prompt_id")
+    if pid is not None:
+        if str(pid) in table["prompt_id"]:
+            return prompt_messages(table["prompt_id"][str(pid)])
+        raise KeyError(
+            f"prompt_id {pid} (source_index={row.get('source_index')}) not found in the train or "
+            f"eval prompt pool; the rollout cache was built from a different prompt file"
+        )
 
-    # 2) positional fallback: source_index is an index into the pool file
+    # 2) rows without a prompt_id: identifier match, then positional fallback
+    if row.get("source_index") is not None and str(row["source_index"]) in table["source_index"]:
+        return prompt_messages(table["source_index"][str(row["source_index"])])
     pool = table["pool"]
     si = row.get("source_index")
     if si is not None and 0 <= int(si) < len(pool):

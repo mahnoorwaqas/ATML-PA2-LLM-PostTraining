@@ -1,0 +1,12 @@
+{
+  "run_name": "clip_0.20",
+  "updates": 8,
+  "clip_epsilon": 0.2,
+  "kl_beta": 0.1,
+  "seed": 6304,
+  "adapter_path": "/home/ATML-PA2-LLM-PostTraining/outputs/task2_ppo/clip_0.20",
+  "wall_clock_seconds": 29.451246427372098,
+  "peak_vram_allocated_gb": 6.659910678863525,
+  "peak_vram_reserved_gb": 6.869140625,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+}

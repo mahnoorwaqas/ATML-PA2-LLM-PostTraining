@@ -56,6 +56,28 @@ def _as_list(x):
     return [float(v) for v in x]
 
 
+def prompt_lookup(cfg: dict):
+    """Map every identifier a pool row carries (source_index / prompt_id / id) to the row."""
+    pool = read_jsonl(cfg["paths"]["rl_prompt_train"])
+    table = {}
+    for i, r in enumerate(pool):
+        for k in ("prompt_id", "source_index", "id"):
+            if k in r:
+                table[str(r[k])] = r
+        table.setdefault(f"__idx{i}", r)
+    return table
+
+
+def find_prompt_messages(table: dict, row: dict):
+    msgs = row.get("messages") or row.get("prompt_messages")
+    if msgs is not None:
+        return msgs
+    for k in ("prompt_id", "source_index"):
+        if k in row and str(row[k]) in table:
+            return prompt_messages(table[str(row[k])])
+    raise KeyError(f"cannot find prompt for cache row (prompt_id={row.get('prompt_id')}, source_index={row.get('source_index')})")
+
+
 def reconstruct_batch(cfg: dict, rows: list[dict], tokenizer, device):
     """Rebuild the fixed cached batch as padded tensors in the SAME layout batch_generate uses
     (left-padded prompt, right-padded response).
@@ -64,20 +86,14 @@ def reconstruct_batch(cfg: dict, rows: list[dict], tokenizer, device):
     source_index. Response token ids come from the cache if stored, else from re-tokenizing the
     cached response text; lengths are checked against the cached log-prob vectors.
     """
-    pool = read_jsonl(cfg["paths"]["rl_prompt_train"])
-    by_src = {str(r.get("source_index", i)): r for i, r in enumerate(pool)}
+    table = prompt_lookup(cfg)
     eos = tokenizer.eos_token_id
     pad = tokenizer.pad_token_id
     max_p = int(cfg["max_prompt_length"])
 
     items, n_len_mismatch = [], 0
     for row in rows:
-        msgs = row.get("messages") or row.get("prompt_messages")
-        if msgs is None:
-            src = by_src.get(str(row["source_index"]))
-            if src is None:
-                raise KeyError(f"cannot find prompt for source_index={row['source_index']}")
-            msgs = prompt_messages(src)
+        msgs = find_prompt_messages(table, row)
         p_ids = tokenizer.apply_chat_template(msgs, tokenize=True, add_generation_prompt=True)
         if hasattr(p_ids, "input_ids"):
             p_ids = p_ids["input_ids"]
@@ -117,10 +133,17 @@ def reconstruct_batch(cfg: dict, rows: list[dict], tokenizer, device):
         rmask[i, : len(r)] = 1.0
         old_lp[i, : len(o)] = torch.tensor(o)
         ref_lp[i, : len(rf)] = torch.tensor(rf)
+    cached_values = None
+    if "values" in items[0][4]:
+        cached_values = torch.zeros((B, T))
+        for i, (_p, r, _o, _f, row) in enumerate(items):
+            v = _as_list(row["values"])[: len(r)]
+            cached_values[i, : len(v)] = torch.tensor(v)
     batch = {k: v.to(device) for k, v in dict(seq=seq, attn=attn, rmask=rmask, old_lp=old_lp, ref_lp=ref_lp, rids=rids).items()}
     batch["pw"] = pw
     batch["T"] = T
     batch["items"] = items
+    batch["cached_values"] = cached_values.to(device) if cached_values is not None else None
     return batch
 
 
@@ -128,25 +151,24 @@ def cached_rewards_and_values(cfg: dict, batch: dict, tokenizer):
     """Task rewards (cached if present, else reward model) and critic values for the cached batch."""
     rows = [it[4] for it in batch["items"]]
     cached = None
-    for key in ("task_reward", "reward", "rm_reward", "reward_score", "raw_reward"):
+    for key in ("effective_terminal_reward", "task_reward", "reward", "rm_reward", "reward_score", "raw_reward", "raw_terminal_reward"):
         if key in rows[0]:
             cached = torch.tensor([float(r[key]) for r in rows])
             print(f"using cached rewards from key '{key}'")
             break
     if cached is None:
         rm, rm_tok = load_reward_model(cfg)
-        pool = read_jsonl(cfg["paths"]["rl_prompt_train"])
-        by_src = {str(r.get("source_index", i)): r for i, r in enumerate(pool)}
-        prompts = [
-            (row.get("messages") or row.get("prompt_messages") or prompt_messages(by_src[str(row["source_index"])]))
-            for _p, _r, _o, _f, row in batch["items"]
-        ]
+        table = prompt_lookup(cfg)
+        prompts = [find_prompt_messages(table, row) for _p, _r, _o, _f, row in batch["items"]]
         resps = [str(row["response"]) for *_x, row in batch["items"]]
         cached = score_reward_pairs(rm, rm_tok, prompts, resps, max_length=int(cfg["reward_max_length"])).cpu().float()
         del rm
         gc.collect()
         torch.cuda.empty_cache() if torch.cuda.is_available() else None
 
+    if batch.get("cached_values") is not None:
+        print("using cached critic values from the rollout cache")
+        return cached.to(batch["seq"].device), batch["cached_values"]
     vm = load_value_model(cfg, cfg["paths"]["ppo_midpoint_value"], train_mode="frozen")
     vals = []
     with torch.no_grad():

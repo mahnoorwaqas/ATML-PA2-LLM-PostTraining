@@ -57,14 +57,17 @@ def _as_list(x):
 
 
 def prompt_lookup(cfg: dict):
-    """Map every identifier a pool row carries (source_index / prompt_id / id) to the row."""
+    """Index the PPO prompt pool by position and by each identifier a row may carry.
+
+    Each identifier type gets its own dict so that, e.g., a small-integer `id` column can never
+    overwrite or shadow a `source_index` entry.
+    """
     pool = read_jsonl(cfg["paths"]["rl_prompt_train"])
-    table = {}
-    for i, r in enumerate(pool):
+    table = {"pool": pool, "prompt_id": {}, "source_index": {}, "id": {}}
+    for r in pool:
         for k in ("prompt_id", "source_index", "id"):
             if k in r:
-                table[str(r[k])] = r
-        table.setdefault(f"__idx{i}", r)
+                table[k].setdefault(str(r[k]), r)
     return table
 
 
@@ -72,10 +75,29 @@ def find_prompt_messages(table: dict, row: dict):
     msgs = row.get("messages") or row.get("prompt_messages")
     if msgs is not None:
         return msgs
+
+    # 1) exact identifier match
     for k in ("prompt_id", "source_index"):
-        if k in row and str(row[k]) in table:
-            return prompt_messages(table[str(row[k])])
-    raise KeyError(f"cannot find prompt for cache row (prompt_id={row.get('prompt_id')}, source_index={row.get('source_index')})")
+        if row.get(k) is not None and str(row[k]) in table[k]:
+            return prompt_messages(table[k][str(row[k])])
+
+    # 2) positional fallback: source_index is an index into the pool file
+    pool = table["pool"]
+    si = row.get("source_index")
+    if si is not None and 0 <= int(si) < len(pool):
+        cand = pool[int(si)]
+        # refuse to guess if both sides carry a prompt_id and they disagree
+        if row.get("prompt_id") is not None and cand.get("prompt_id") not in (None, row["prompt_id"]):
+            raise KeyError(
+                f"prompt_id mismatch at source_index={si}: cache has {row['prompt_id']}, "
+                f"pool has {cand['prompt_id']} (cache was built from a different prompt pool)"
+            )
+        return prompt_messages(cand)
+
+    raise KeyError(
+        f"cannot find prompt for cache row (prompt_id={row.get('prompt_id')}, "
+        f"source_index={si}); pool has {len(pool)} rows"
+    )
 
 
 def reconstruct_batch(cfg: dict, rows: list[dict], tokenizer, device):

@@ -1,0 +1,16 @@
+{
+  "run_name": "beta_0.30",
+  "beta": 0.3,
+  "dataset": "data/dpo_standard_train.jsonl",
+  "n_examples": 600,
+  "overlength_rule": "prompt preserved, response truncated (+EOS); prompt-too-long examples filtered",
+  "epochs": 1,
+  "optimizer_steps": 38,
+  "learning_rate": 2e-05,
+  "seed": 6304,
+  "adapter_path": "/home/ATML-PA2-LLM-PostTraining/outputs/task1_dpo/beta_0.30",
+  "wall_clock_seconds": 69.85257174633443,
+  "peak_vram_allocated_gb": 6.655642509460449,
+  "peak_vram_reserved_gb": 11.25,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+}

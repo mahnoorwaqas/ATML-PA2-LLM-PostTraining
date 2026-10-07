@@ -1,0 +1,16 @@
+{
+  "run_name": "length_balanced",
+  "beta": 0.1,
+  "dataset": "data/dpo_length_balanced_train.jsonl",
+  "n_examples": 1442,
+  "overlength_rule": "prompt preserved, response truncated (+EOS); prompt-too-long examples filtered",
+  "epochs": 1,
+  "optimizer_steps": 91,
+  "learning_rate": 2e-05,
+  "seed": 6304,
+  "adapter_path": "/home/ATML-PA2-LLM-PostTraining/outputs/task1_dpo/length_balanced",
+  "wall_clock_seconds": 173.26957517117262,
+  "peak_vram_allocated_gb": 6.6557817459106445,
+  "peak_vram_reserved_gb": 13.169921875,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+}

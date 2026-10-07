@@ -1,0 +1,111 @@
+{
+  "max_length": 768,
+  "dpo_standard_train": {
+    "n": 1500,
+    "prompt_too_long_filtered": 54,
+    "chosen_truncated": 172,
+    "rejected_truncated": 133,
+    "any_truncated": 232,
+    "by_stratum": {
+      "preferred_longer": {
+        "n": 664,
+        "chosen_truncated": 104,
+        "rejected_truncated": 18,
+        "prompt_too_long": 14
+      },
+      "matched": {
+        "n": 361,
+        "chosen_truncated": 55,
+        "rejected_truncated": 51,
+        "prompt_too_long": 10
+      },
+      "rejected_longer": {
+        "n": 475,
+        "chosen_truncated": 13,
+        "rejected_truncated": 64,
+        "prompt_too_long": 30
+      }
+    }
+  },
+  "dpo_standard_eval": {
+    "n": 300,
+    "prompt_too_long_filtered": 10,
+    "chosen_truncated": 36,
+    "rejected_truncated": 31,
+    "any_truncated": 50,
+    "by_stratum": {
+      "preferred_longer": {
+        "n": 115,
+        "chosen_truncated": 19,
+        "rejected_truncated": 2,
+        "prompt_too_long": 3
+      },
+      "matched": {
+        "n": 80,
+        "chosen_truncated": 13,
+        "rejected_truncated": 13,
+        "prompt_too_long": 4
+      },
+      "rejected_longer": {
+        "n": 105,
+        "chosen_truncated": 4,
+        "rejected_truncated": 16,
+        "prompt_too_long": 3
+      }
+    }
+  },
+  "dpo_length_train": {
+    "n": 1500,
+    "prompt_too_long_filtered": 58,
+    "chosen_truncated": 32,
+    "rejected_truncated": 33,
+    "any_truncated": 42,
+    "by_stratum": {
+      "preferred_longer": {
+        "n": 500,
+        "chosen_truncated": 16,
+        "rejected_truncated": 7,
+        "prompt_too_long": 22
+      },
+      "matched": {
+        "n": 500,
+        "chosen_truncated": 10,
+        "rejected_truncated": 10,
+        "prompt_too_long": 18
+      },
+      "rejected_longer": {
+        "n": 500,
+        "chosen_truncated": 6,
+        "rejected_truncated": 16,
+        "prompt_too_long": 18
+      }
+    }
+  },
+  "dpo_length_eval": {
+    "n": 246,
+    "prompt_too_long_filtered": 9,
+    "chosen_truncated": 4,
+    "rejected_truncated": 6,
+    "any_truncated": 7,
+    "by_stratum": {
+      "preferred_longer": {
+        "n": 82,
+        "chosen_truncated": 4,
+        "rejected_truncated": 3,
+        "prompt_too_long": 4
+      },
+      "matched": {
+        "n": 82,
+        "chosen_truncated": 0,
+        "rejected_truncated": 0,
+        "prompt_too_long": 2
+      },
+      "rejected_longer": {
+        "n": 82,
+        "chosen_truncated": 0,
+        "rejected_truncated": 3,
+        "prompt_too_long": 3
+      }
+    }
+  }
+}

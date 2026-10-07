@@ -21,7 +21,7 @@ from common.models import (
     value_parameter_groups,
 )
 from common.policy_eval import row_id
-from common.train_utils import ResourceTracker, Stepper, disable_dropout, token_entropy
+from common.train_utils import ResourceTracker, Stepper, detach_generation, disable_dropout, make_trainables_fp32, token_entropy
 from task2_ppo.ppo import (
     compute_gae,
     normalize_advantages,
@@ -111,6 +111,9 @@ def run_ppo(config_path: str, output: str | None = None, updates: int | None = N
     out.parent.mkdir(parents=True, exist_ok=True)
 
     tok, policy, vmodel = bundle["tokenizer"], bundle["policy"], bundle["value_model"]
+    # fp16 trainable params (e.g. the critic's scalar head) break GradScaler/AdamW; keep them in fp32.
+    make_trainables_fp32(vmodel)
+    make_trainables_fp32(policy)
     rm, rm_tok = bundle["reward_model"], bundle["reward_tokenizer"]
     rows_all = bundle["prompt_rows"]
     eps, beta_kl = float(cfg["clip_epsilon"]), float(cfg["kl_beta"])
@@ -146,6 +149,7 @@ def run_ppo(config_path: str, output: str | None = None, updates: int | None = N
             top_p=float(gen_cfg.get("top_p", 0.9)),
             do_sample=bool(gen_cfg.get("do_sample", True)),
         )
+        gen = detach_generation(gen)  # generate() ran in inference_mode; autograd needs normal tensors
         seq, attn, pw = gen["sequences"], gen["attention_mask"], gen["prompt_width"]
         rids, rmask = gen["response_ids"], gen["response_mask"]
         T = rids.shape[1]

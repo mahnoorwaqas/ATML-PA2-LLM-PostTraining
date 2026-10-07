@@ -1,10 +1,35 @@
-.venv/
+# Python
 __pycache__/
 *.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Caches
 .cache/
+hf_cache/
+.huggingface/
 wandb/
-checkpoints/
+
+# Student outputs
+outputs/
+
+# Downloaded course assets
+cached/*
+!cached/README.md
+checkpoints/*
+!checkpoints/README.md
+manifests/*
+!manifests/README.md
+data/*
+!data/README.md
+!data/word_limit_prompts.jsonl
+
+# Misc
+*.zip
+.DS_Store
+
+# keep small result files; ignore large generations if needed
 *.pt
 *.pth
 *.safetensors
-cached/

@@ -68,6 +68,11 @@ def main():
         sdf.to_csv(d / "length_strata_accuracy.csv")
         print("\nStratified preference accuracy:\n", sdf.to_string())
 
+    mono = monotonicity(df) if len(df) else {}
+    save_json(d / "beta_monotonicity.json", mono)
+    print("\nbeta monotonicity:", {k: v["pattern"] for k, v in mono.items()})
+    save_json(d / "wordlimit_evidence.json", wordlimit_evidence(d))
+
     # Qualitative candidates: high RM score gain over base but much longer / non-compliant responses.
     base_p, std_p = d / "sft_base_generations.jsonl", d / "standard_generations.jsonl"
     if base_p.exists() and std_p.exists():
@@ -89,6 +94,42 @@ def main():
         by_rm_gain = sorted(cands, key=lambda x: x["rm_gain"], reverse=True)[:8]
         save_json(d / "qualitative_candidates.json", {"rm_up_and_longer": by_rm_len, "largest_rm_gain": by_rm_gain})
         print("wrote qualitative candidates (YOU must read them and judge quality yourself)")
+
+
+def monotonicity(df: pd.DataFrame) -> dict:
+    """RQ1: is each metric monotone in beta over the tested range? (short forks only)"""
+    sub = df[df["condition"].str.startswith("short fork")].sort_values("beta")
+    out = {}
+    for col in ("pref_acc", "kl_token_weighted", "rm_score", "len_mean", "dpo_loss"):
+        v = sub[col].dropna().tolist()
+        if len(v) < 3:
+            continue
+        inc = all(b > a for a, b in zip(v, v[1:]))
+        dec = all(b < a for a, b in zip(v, v[1:]))
+        out[col] = {"betas": sub["beta"].tolist(), "values": v, "pattern": "increasing" if inc else ("decreasing" if dec else "non-monotonic")}
+    return out
+
+
+def wordlimit_evidence(d, names=("sft_base", "standard", "length_balanced")) -> dict:
+    """Qualitative/quantitative instruction-compliance evidence on the common word-limit prompt set."""
+    res = {}
+    for n in names:
+        p = d / f"{n}_word_limit.jsonl"
+        if not p.exists():
+            continue
+        recs = [json.loads(l) for l in p.open(encoding="utf-8")]
+        by_prompt = {}
+        for r in recs:
+            by_prompt.setdefault(r["prompt_id"], []).append(r)
+        res[n] = {
+            "per_prompt": {pid: {"mean_words": sum(x["words"] for x in rs) / len(rs),
+                                 "compliance": sum(1 for x in rs if x["compliant"]) / len(rs)} for pid, rs in by_prompt.items()},
+            "worst_violations": [
+                {"prompt_id": r["prompt_id"], "words": r["words"], "response": r["response"][:400]}
+                for r in sorted((x for x in recs if x["compliant"] is False), key=lambda x: -x["words"])[:4]
+            ],
+        }
+    return res
 
 
 if __name__ == "__main__":

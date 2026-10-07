@@ -34,7 +34,7 @@ def main():
             gc.collect()
             torch.cuda.empty_cache() if torch.cuda.is_available() else None
         if not args.train_only:
-            evaluate_adapter(args.config, out, tag, beta=float(beta))
+            evaluate_adapter(args.config, out, tag, beta=float(beta), with_word_limit=False)
             gc.collect()
             torch.cuda.empty_cache() if torch.cuda.is_available() else None
 

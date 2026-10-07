@@ -12,7 +12,7 @@ from common.logging_utils import append_jsonl, save_json, set_seed
 from common.metrics import sample_entropy
 from common.models import load_policy, load_reward_model, load_tokenizer, reference_mode, trainable_parameters
 from common.policy_eval import row_id
-from common.train_utils import ResourceTracker, Stepper, disable_dropout, token_entropy
+from common.train_utils import ResourceTracker, Stepper, detach_generation, disable_dropout, make_trainables_fp32, token_entropy
 from task3_grpo.grpo import (
     group_relative_advantages,
     group_reward_stats,
@@ -81,6 +81,7 @@ def run_grpo(config_path: str, output: str | None = None, updates: int | None = 
     n_updates = int(cfg["updates"])
     tol = float(cfg.get("informative_std_tol", 1e-6))
     gen_cfg = cfg.get("generation", {})
+    make_trainables_fp32(policy)
     params = trainable_parameters(policy)
     stepper = Stepper(bundle["optimizer"], params, float(cfg["max_grad_norm"]))
     tracker = ResourceTracker()
@@ -111,6 +112,7 @@ def run_grpo(config_path: str, output: str | None = None, updates: int | None = 
             top_p=float(gen_cfg.get("top_p", 0.9)),
             do_sample=bool(gen_cfg.get("do_sample", True)),
         )
+        gen = detach_generation(gen)  # generate() ran in inference_mode; autograd needs normal tensors
         seq, attn, pw = gen["sequences"], gen["attention_mask"], gen["prompt_width"]
         rids, rmask = gen["response_ids"], gen["response_mask"]
         policy.train()

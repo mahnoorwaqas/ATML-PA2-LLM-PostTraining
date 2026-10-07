@@ -2,9 +2,13 @@
 from __future__ import annotations
 
 import time
+import warnings
 
 import torch
 import torch.nn as nn
+
+# bitsandbytes prints this once per int8 matmul (hundreds of lines for the 8-bit reward model); it is harmless.
+warnings.filterwarnings("ignore", message=r".*MatMul8bitLt.*")
 
 
 def disable_dropout(model: nn.Module) -> None:
@@ -106,3 +110,35 @@ def seq_stats(values: list[float]) -> dict:
         return {"mean": float("nan"), "std": float("nan"), "iqr": float("nan"), "median": float("nan")}
     q1, q3 = np.percentile(a, [25, 75])
     return {"mean": float(a.mean()), "std": float(a.std()), "iqr": float(q3 - q1), "median": float(np.median(a))}
+
+
+def detach_generation(gen: dict) -> dict:
+    """Turn the tensors returned by common.generation.batch_generate into ordinary tensors.
+
+    batch_generate runs model.generate() under torch.inference_mode(), so `sequences` and everything
+    derived from it are *inference tensors*. Autograd cannot save those for backward, so the first
+    differentiable forward pass on them (policy/critic log-probs with grad) fails with
+    "Inference tensors cannot be saved for backward". clone() outside inference mode yields normal tensors.
+    """
+    out = dict(gen)
+    for k in ("sequences", "attention_mask", "response_ids", "response_mask"):
+        if k in out and torch.is_tensor(out[k]):
+            out[k] = out[k].clone()
+    return out
+
+
+def make_trainables_fp32(model: nn.Module) -> None:
+    """Make every trainable parameter that is stored in fp16/bf16 an fp32 parameter.
+
+    Needed for the critic head (and any other trainable module the checkpoint stores in half precision):
+    torch.amp.GradScaler refuses to unscale fp16 gradients and fp16 AdamW states underflow. The module's
+    forward input is cast to fp32 by a pre-hook so the surrounding fp16 network keeps working.
+    """
+    half = (torch.float16, torch.bfloat16)
+    for module in list(model.modules()):
+        own = list(module.parameters(recurse=False))
+        if own and any(p.requires_grad and p.dtype in half for p in own):
+            module.float()
+            module.register_forward_pre_hook(
+                lambda m, args: tuple(a.float() if torch.is_tensor(a) and a.is_floating_point() else a for a in args)
+            )

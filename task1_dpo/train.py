@@ -150,6 +150,7 @@ def run_training(config_path: str, run_name: str, dataset_path: str | None = Non
         "beta": beta_val,
         "dataset": dataset_path or cfg["paths"]["dpo_standard_train"],
         "n_examples": len(bundle["rows"]),
+        "example_ids": [r.get("pair_id", r.get("source_index", r.get("id", i))) for i, r in enumerate(bundle["rows"])],
         "overlength_rule": "prompt preserved, response truncated (+EOS); prompt-too-long examples filtered",
         "epochs": epochs,
         "optimizer_steps": opt_step,

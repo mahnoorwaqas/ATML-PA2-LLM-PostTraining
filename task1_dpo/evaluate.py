@@ -147,7 +147,9 @@ def evaluate_adapter(
     max_len = int(cfg["max_sequence_length"])
     bs = int(cfg.get("eval_batch_size", 4))
     held, n_drop_held = filter_fitting(tokenizer, read_jsonl(cfg["paths"]["dpo_standard_eval"]), max_len)
+    _pid = lambda rs: [r.get("pair_id", r.get("source_index", r.get("id", i))) for i, r in enumerate(rs)]
     result["n_heldout_pairs"] = len(held)
+    result["heldout_pair_ids"] = _pid(held)
     result["n_heldout_dropped_prompt_too_long"] = n_drop_held
     if adapter is not None:
         lp = pair_logps(policy, tokenizer, held, max_len, bs)
@@ -155,6 +157,7 @@ def evaluate_adapter(
         if with_strata:
             strat_rows, n_drop_strat = filter_fitting(tokenizer, read_jsonl(cfg["paths"]["dpo_length_eval"]), max_len)
             result["n_stratified_dropped_prompt_too_long"] = n_drop_strat
+            result["stratified_pair_ids"] = _pid(strat_rows)
             lps = pair_logps(policy, tokenizer, strat_rows, max_len, bs)
             labels = np.array([get_stratum(r) for r in strat_rows])
             result["length_stratified"] = {}

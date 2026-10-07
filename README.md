@@ -19,7 +19,9 @@ Validated by `python -m pytest tests -q` (CPU, 13 tests: closed-form DPO, clip g
 ```bash
 python -m pip install -r requirements.txt
 python -m scripts.download_assets && python -m scripts.validate_assets
-python -m pytest tests -q
+python -m pytest tests -q                 # objective unit tests (CPU)
+python -m tests.smoke_task1               # end-to-end Task 1 smoke test (tiny random model, no downloads)
+python -m tests.smoke_task2               # end-to-end Task 2 + GRPO-loop smoke test (CPU)
 ```
 
 ## Reproduce (run in this order; Task 4 only after 1–3 standard runs are frozen)
@@ -27,7 +29,7 @@ python -m pytest tests -q
 # ---- Task 1: DPO ----
 python -m task1_dpo.truncation_stats                                 # how many pairs hit the 768-token limit (cite in report)
 python -m task1_dpo.train --run-name standard                       # 1 epoch, beta=0.10 -> outputs/task1_dpo/standard
-python -m task1_dpo.evaluate --adapter none --name sft_base --skip-word-limit   # base-policy generation reference
+python -m task1_dpo.evaluate --adapter none --name sft_base                    # base-policy reference (generation + word-limit)
 python -m task1_dpo.evaluate --adapter outputs/task1_dpo/standard --name standard --strata
 python -m task1_dpo.ablate_beta                                      # betas 0.03/0.10/0.30, 600 examples each
 python -m task1_dpo.analyze_length                                   # trains length_balanced, stratified + word-limit eval

@@ -1,0 +1,12 @@
+{
+  "run_name": "standard",
+  "updates": 20,
+  "clip_epsilon": 0.2,
+  "kl_beta": 0.1,
+  "seed": 6304,
+  "adapter_path": "/home/ATML-PA2-LLM-PostTraining/outputs/task2_ppo/standard",
+  "wall_clock_seconds": 71.27922672964633,
+  "peak_vram_allocated_gb": 6.751620769500732,
+  "peak_vram_reserved_gb": 7.029296875,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+}

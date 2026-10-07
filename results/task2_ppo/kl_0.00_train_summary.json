@@ -1,0 +1,12 @@
+{
+  "run_name": "kl_0.00",
+  "updates": 8,
+  "clip_epsilon": 0.2,
+  "kl_beta": 0.0,
+  "seed": 6304,
+  "adapter_path": "/home/ATML-PA2-LLM-PostTraining/outputs/task2_ppo/kl_0.00",
+  "wall_clock_seconds": 30.528395015746355,
+  "peak_vram_allocated_gb": 6.658222198486328,
+  "peak_vram_reserved_gb": 6.916015625,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+}
